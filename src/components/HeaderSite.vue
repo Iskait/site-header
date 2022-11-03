@@ -1,28 +1,35 @@
 <template>
-  <div class="flex flex-col gap-7 bg-slate-100 p-8 relative">
+  <div
+    v-hover="(state: boolean) => (isHovered = state)"
+    class="flex flex-col gap-7 bg-white p-8 fixed w-full"
+  >
     <div
-      @mouseover="toggleShowNav(true)"
-      class="flex gap-24 justify-between items-center lg:flex-col lg:items-start lg:gap-6"
+      class="flex lg:gap-24 gap-10 justify-between lg:items-center flex-col lg:flex-row items-start"
     >
-      <p class="font-montserrat font-medium">ОЛИМП КЛИНИК</p>
+      <div class="w-full lg:w-fit flex justify-between">
+        <p class="font-montserrat font-medium">ОЛИМП КЛИНИК</p>
+        <MobileMenu @click="toggleShowMenu" />
+      </div>
       <transition name="slide">
         <SearchInput v-if="!isLaptopScreen ? showMenu : true" />
       </transition>
-      <div id="mobile-nav"></div>
+      <div v-show="!isLaptopScreen && showMenu" id="mobile-nav" />
       <transition name="slide">
         <PrivateBlock v-if="!isLaptopScreen ? showMenu : true" />
       </transition>
     </div>
-    <div id="desktop-nav"></div>
+    <div
+      v-show="isLaptopScreen && (isHovered || isScrolled)"
+      id="desktop-nav"
+    />
     <teleport
       v-if="mount"
       :to="isLaptopScreen ? '#desktop-nav' : '#mobile-nav'"
     >
       <transition name="slide">
-        <HeaderNav v-if="isLaptopScreen ? showNav : showMenu" />
+        <HeaderNav v-if="isLaptopScreen ? isHovered || isScrolled : showMenu" />
       </transition>
     </teleport>
-    <MobileMenu @click="toggleShowMenu" />
   </div>
 </template>
 
@@ -34,27 +41,28 @@ import HeaderNav from "./HeaderNav.vue";
 import PrivateBlock from "./PrivateBlock.vue";
 const store = useStore();
 const mount = ref<boolean>(false);
-const showNav = computed<boolean>(() => store.state.showNav);
+const isHovered = ref<boolean>(false);
+const isScrolled = ref<boolean>(false);
 const showMenu = computed<boolean>(() => store.state.showMenu);
-const toggleShowNav = (payload: boolean) =>
-  store.commit("toggleShowNav", payload);
 const toggleShowMenu = () => store.commit("toggleShowMenu");
-const scrollHandler = (): void => {
-  toggleShowNav(false);
-};
 
 const isLaptopScreen = ref(window.screen.availWidth >= 1024);
 
 onMounted(() => {
   mount.value = true;
-  window.addEventListener("resize", () => {
-    isLaptopScreen.value = window.screen.availWidth >= 1024;
+  window.addEventListener("scroll", () => {
+    if (window.scrollY <= 0) {
+      isScrolled.value = true;
+    } else {
+      isScrolled.value = false;
+    }
   });
-  isLaptopScreen.value && document.addEventListener("scroll", scrollHandler);
+  window.addEventListener("resize", () => {
+    isLaptopScreen.value = window.screen.availWidth > 1024;
+  });
 });
 onUnmounted(() => {
   mount.value = false;
-  document.removeEventListener("scroll", scrollHandler);
 });
 </script>
 
