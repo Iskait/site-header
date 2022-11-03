@@ -6,20 +6,20 @@
     >
       <p class="font-montserrat font-medium">ОЛИМП КЛИНИК</p>
       <transition name="slide">
-        <SearchInput v-if="!getScreenWidth() ? showMenu : true" />
+        <SearchInput v-if="!isLaptopScreen ? showMenu : true" />
       </transition>
       <div id="mobile-nav"></div>
       <transition name="slide">
-        <PrivateBlock v-if="!getScreenWidth() ? showMenu : true" />
+        <PrivateBlock v-if="!isLaptopScreen ? showMenu : true" />
       </transition>
     </div>
     <div id="desktop-nav"></div>
     <teleport
       v-if="mount"
-      :to="getScreenWidth() ? '#desktop-nav' : '#mobile-nav'"
+      :to="isLaptopScreen ? '#desktop-nav' : '#mobile-nav'"
     >
       <transition name="slide">
-        <HeaderNav v-if="getScreenWidth() ? showNav : showMenu" />
+        <HeaderNav v-if="isLaptopScreen ? showNav : showMenu" />
       </transition>
     </teleport>
     <MobileMenu @click="toggleShowMenu" />
@@ -43,11 +43,14 @@ const scrollHandler = (): void => {
   toggleShowNav(false);
 };
 
-const getScreenWidth = (): boolean => window.screen.availWidth > 1024;
+const isLaptopScreen = ref(window.screen.availWidth >= 1024);
 
 onMounted(() => {
   mount.value = true;
-  getScreenWidth() && document.addEventListener("scroll", scrollHandler);
+  window.addEventListener("resize", () => {
+    isLaptopScreen.value = window.screen.availWidth >= 1024;
+  });
+  isLaptopScreen.value && document.addEventListener("scroll", scrollHandler);
 });
 onUnmounted(() => {
   mount.value = false;
