@@ -6,4 +6,3 @@
     </PrivateButton>
   </div>
 </template>
-

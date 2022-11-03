@@ -1,5 +1,5 @@
 <template>
-  <div class="w-screen h-[1000px] overflow-scroll">
+  <div class="w-full h-[1000px] bg-gray-100">
     <HeaderSite />
   </div>
 </template>
