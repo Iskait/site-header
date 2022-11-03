@@ -1,5 +1,5 @@
 <template>
-  <ul class="flex flex-row gap-16 flex-wrap lg:flex-col lg:gap-2">
+  <ul class="flex flex-col lg:flex-row lg:gap-16 gap-4 flex-wrap">
     <li v-for="navLink in navLinks" :key="navLink">
       <a
         href="#"
