@@ -1,4 +1,4 @@
 export default interface IStore {
-  showNav: boolean,
-  showMenu: boolean,
+  showNav: boolean;
+  showMenu: boolean;
 }
