@@ -15,14 +15,25 @@
     >
       <div class="w-full lg:w-fit flex justify-between">
         <p class="font-montserrat font-medium">ОЛИМП КЛИНИК</p>
-        <MobileMenu @click="isMobileMenuOpen = !isMobileMenuOpen" />
+        <div
+          @click="isMobileMenuOpen = !isMobileMenuOpen"
+          class="w-[40px] lg:hidden cursor-pointer block before:content-[''] before:h-[2px] before:w-full before:bg-black before:block before:rounded before:mb-3 after:content-[''] after:h-[2px] after:w-2/3 after:bg-black after:block after:rounded"
+        />
       </div>
       <transition name="slide">
-        <SearchInput v-if="!isLaptopScreen ? isMobileMenuOpen : true" />
+        <SearchInput v-if="isLaptopScreen || isMobileMenuOpen" />
       </transition>
       <div id="mobile-nav" />
       <transition name="slide">
-        <PrivateBlock v-if="!isLaptopScreen ? isMobileMenuOpen : true" />
+        <div
+          v-if="isLaptopScreen || isMobileMenuOpen"
+          class="flex justify-between items-center gap-6"
+        >
+          <button class="button">Обратный звонок</button>
+          <button class="button">
+            <img src="@/assets/user.svg" alt="user-private" />
+          </button>
+        </div>
       </transition>
     </div>
     <div id="desktop-nav" />
@@ -43,7 +54,6 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import SearchInput from "./SearchInput.vue";
 import HeaderNav from "./HeaderNav.vue";
-import PrivateBlock from "./PrivateBlock.vue";
 const mount = ref<boolean>(false);
 const isHovered = ref<boolean>(false);
 const isScrolled = ref<boolean>(false);
