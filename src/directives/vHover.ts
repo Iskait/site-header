@@ -1,7 +1,10 @@
 import { DirectiveBinding } from "vue";
 
 export default {
-  mounted: (el: HTMLElement, binding: DirectiveBinding) => {
+  mounted: (
+    el: HTMLElement,
+    binding: DirectiveBinding<(state: boolean) => void>
+  ) => {
     el.addEventListener("mouseenter", () => {
       binding.value(true);
     });
