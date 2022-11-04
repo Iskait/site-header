@@ -1,10 +1,11 @@
 <template>
   <div
     v-hover="(state: boolean) => (isHovered = state)"
-    class="flex flex-col gap-7 bg-white p-8 fixed w-full"
+    class="flex flex-col bg-white p-8 fixed w-full"
   >
     <div
-      class="flex lg:gap-24 gap-10 justify-between lg:items-center flex-col lg:flex-row items-start"
+      class="flex lg:gap-x-24 justify-between lg:items-center flex-col lg:flex-row items-start"
+      :class="{ 'gap-y-10': showMenu }"
     >
       <div class="w-full lg:w-fit flex justify-between">
         <p class="font-montserrat font-medium">ОЛИМП КЛИНИК</p>
@@ -13,15 +14,12 @@
       <transition name="slide">
         <SearchInput v-if="!isLaptopScreen ? showMenu : true" />
       </transition>
-      <div v-show="!isLaptopScreen && showMenu" id="mobile-nav" />
+      <div id="mobile-nav" />
       <transition name="slide">
         <PrivateBlock v-if="!isLaptopScreen ? showMenu : true" />
       </transition>
     </div>
-    <div
-      v-show="isLaptopScreen && (isHovered || isScrolled)"
-      id="desktop-nav"
-    />
+    <div id="desktop-nav" />
     <teleport
       v-if="mount"
       :to="isLaptopScreen ? '#desktop-nav' : '#mobile-nav'"
@@ -69,12 +67,11 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .slide-enter-active,
 .slide-leave-active {
-  transition: transform 0.3s;
+  @apply transition-all duration-300;
 }
 
 .slide-enter-from,
 .slide-leave-to {
-  transform: translateY(-80px);
-  opacity: 0.3;
+  @apply lg:h-0 opacity-0 lg:mt-0 lg:translate-y-0 -translate-y-10;
 }
 </style>
