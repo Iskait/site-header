@@ -14,7 +14,7 @@ const navLinks = ref<string[]>([
 </script>
 
 <template>
-  <ul class="flex flex-col lg:mt-7 lg:flex-row lg:gap-16 gap-4 flex-wrap">
+  <ul class="flex flex-col lg:flex-row gap-x-8 xl:gap-x-16 gap-y-4">
     <li v-for="navLink in navLinks" :key="navLink">
       <a
         href="#"
