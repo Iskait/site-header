@@ -1,24 +1,25 @@
 # site-header
 
 ## Project setup
+
 ```
 npm install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
-npm run serve
+npm run vite
 ```
 
 ### Compiles and minifies for production
+
 ```
-npm run build
+npm run vite build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+### locally preview production build
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```
+npm run vite preview
+```
